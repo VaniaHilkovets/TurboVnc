@@ -11,17 +11,15 @@ echo "[*] Installing desktop environment + clipboard tools..."
 apt install -y xfce4 xfce4-goodies autocutsel xclip curl wget git software-properties-common \
     dbus-x11 libglu1-mesa gnupg
 
-echo "[*] Adding TurboVNC + VirtualGL repositories..."
-# TurboVNC
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C1FE51C4E7E56026
-echo "deb https://packagecloud.io/dcommander/turbovnc/any any main" > /etc/apt/sources.list.d/turbovnc.list
-# VirtualGL
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EB3884B54FB59C0
-echo "deb https://packagecloud.io/dcommander/virtualgl/any any main" > /etc/apt/sources.list.d/virtualgl.list
+echo "[*] Downloading & Installing VirtualGL..."
+VGL_VER="3.1"
+wget -q https://github.com/VirtualGL/virtualgl/releases/download/${VGL_VER}/virtualgl_${VGL_VER}_amd64.deb
+dpkg -i virtualgl_${VGL_VER}_amd64.deb || apt install -f -y
 
-echo "[*] Installing TurboVNC + VirtualGL..."
-apt update -y
-apt install -y turbovnc virtualgl
+echo "[*] Downloading & Installing TurboVNC..."
+TURBO_VER="3.1.1"
+wget -q https://github.com/TurboVNC/turbovnc/releases/download/${TURBO_VER}/turbovnc_${TURBO_VER}_amd64.deb
+dpkg -i turbovnc_${TURBO_VER}_amd64.deb || apt install -f -y
 
 echo "[*] Configuring VirtualGL..."
 /opt/VirtualGL/bin/vglserver_config -config +s +f -t </dev/null
