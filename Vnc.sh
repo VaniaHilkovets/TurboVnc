@@ -9,13 +9,17 @@ apt update -y && apt upgrade -y
 
 echo "[*] Installing desktop environment + clipboard tools..."
 apt install -y xfce4 xfce4-goodies autocutsel xclip curl wget git software-properties-common \
-    dbus-x11 libglu1-mesa
+    dbus-x11 libglu1-mesa gnupg
+
+echo "[*] Adding TurboVNC + VirtualGL repositories..."
+# TurboVNC
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C1FE51C4E7E56026
+echo "deb https://packagecloud.io/dcommander/turbovnc/any any main" > /etc/apt/sources.list.d/turbovnc.list
+# VirtualGL
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EB3884B54FB59C0
+echo "deb https://packagecloud.io/dcommander/virtualgl/any any main" > /etc/apt/sources.list.d/virtualgl.list
 
 echo "[*] Installing TurboVNC + VirtualGL..."
-wget -qO- https://packagecloud.io/dcommander/turbovnc/gpgkey | gpg --dearmor > /etc/apt/trusted.gpg.d/turbovnc.gpg
-wget -qO /etc/apt/sources.list.d/turbovnc.list https://raw.githubusercontent.com/TurboVNC/repo/main/TurboVNC.list
-wget -qO- https://packagecloud.io/dcommander/virtualgl/gpgkey | gpg --dearmor > /etc/apt/trusted.gpg.d/virtualgl.gpg
-wget -qO /etc/apt/sources.list.d/virtualgl.list https://raw.githubusercontent.com/VirtualGL/repo/main/VirtualGL.list
 apt update -y
 apt install -y turbovnc virtualgl
 
