@@ -8,8 +8,8 @@ echo "[*] Updating system..."
 apt update -y && apt upgrade -y
 
 echo "[*] Installing desktop environment + clipboard tools..."
-apt install -y xfce4 xfce4-goodies autocutsel xclip curl wget git software-properties-common \
-    dbus-x11 libglu1-mesa gnupg
+apt install -y xfce4 xfce4-goodies autocutsel xclip curl wget git \
+    software-properties-common dbus-x11 libglu1-mesa gnupg libegl1-mesa
 
 echo "[*] Downloading & Installing VirtualGL..."
 VGL_VER="3.1"
@@ -49,7 +49,7 @@ touch ~/.Xresources
 
 echo "[*] Setting VNC password automatically..."
 mkdir -p ~/.vnc
-echo "$VNC_PASS" | vncpasswd -f > ~/.vnc/passwd
+echo "$VNC_PASS" | /opt/TurboVNC/bin/vncpasswd -f > ~/.vnc/passwd
 chmod 600 ~/.vnc/passwd
 
 echo "[*] Starting VNC server..."
