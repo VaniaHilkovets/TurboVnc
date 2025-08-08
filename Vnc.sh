@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# ==== 0. Генерация пароля ====
+VNC_PASS=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 8)
+
 echo "[*] Updating system..."
 apt update -y && apt upgrade -y
 
@@ -42,8 +45,10 @@ EOF
 chmod +x ~/.vnc/xstartup
 touch ~/.Xresources
 
-echo "[*] Set VNC password:"
-/opt/TurboVNC/bin/vncpasswd
+echo "[*] Setting VNC password automatically..."
+mkdir -p ~/.vnc
+echo "$VNC_PASS" | vncpasswd -f > ~/.vnc/passwd
+chmod 600 ~/.vnc/passwd
 
 echo "[*] Starting VNC server..."
 /opt/TurboVNC/bin/vncserver -kill :1 || true
@@ -58,5 +63,7 @@ fi
 
 IP=$(hostname -I | awk '{print $1}')
 echo "===================================="
-echo "VNC is running. Connect to: ${IP}:5901"
+echo "VNC is running!"
+echo "Connect to: ${IP}:5901"
+echo "Password:   ${VNC_PASS}"
 echo "===================================="
